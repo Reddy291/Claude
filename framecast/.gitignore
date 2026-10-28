@@ -1,0 +1,6 @@
+data/
+node_modules/
+dist/
+preview/
+packaging/windows/.cache/
+packaging/windows/.build/

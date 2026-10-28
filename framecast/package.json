@@ -1,0 +1,12 @@
+{
+  "name": "framecast",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI video studio: prompt + references in, video out. Ships with a demo provider rendered by ffmpeg.",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  }
+}

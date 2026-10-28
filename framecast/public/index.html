@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Framecast Studio</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="/favicon.svg" alt="" width="26" height="26">
+      <span>Framecast</span>
+      <span class="badge" title="Videos are rendered locally by the demo provider, not by a real AI model.">Demo mode</span>
+    </div>
+    <div class="credits" title="Demo credits. Failed and cancelled jobs are refunded.">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v10M9 9.5h4.5a2 2 0 010 4H10a2 2 0 000 4h4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+      <span id="credits">–</span> credits
+    </div>
+  </header>
+
+  <main class="layout">
+    <form id="create" class="panel" autocomplete="off">
+      <h1>Create video</h1>
+
+      <fieldset>
+        <legend>Model</legend>
+        <div id="models" class="models"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend class="row">
+          <span>Prompt</span>
+          <button type="button" id="surprise" class="link">Surprise me</button>
+        </legend>
+        <textarea id="prompt" name="prompt" rows="5" maxlength="2000" required
+          placeholder="A paper boat drifting down a rain-soaked neon street at night, slow dolly shot, reflections on wet asphalt"></textarea>
+        <div class="hint"><span id="promptCount">0</span>/2000</div>
+      </fieldset>
+
+      <fieldset>
+        <legend class="row"><span>Reference images</span><span class="hint" id="refLimit"></span></legend>
+        <label id="dropzone" class="dropzone">
+          <input id="refInput" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden>
+          <span>Drop images or <u>browse</u></span>
+          <small>PNG, JPEG or WebP, up to 8 MB each</small>
+        </label>
+        <div id="refs" class="refs"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Duration</legend>
+        <div id="durations" class="segmented"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Aspect ratio</legend>
+        <div id="ratios" class="segmented"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Resolution</legend>
+        <div id="resolutions" class="segmented"></div>
+      </fieldset>
+
+      <label class="toggle" id="audioRow">
+        <span>
+          <strong>Generate audio</strong>
+          <small>Soundtrack and effects synced to the clip</small>
+        </span>
+        <input type="checkbox" id="audio" checked>
+        <i aria-hidden="true"></i>
+      </label>
+
+      <details class="advanced">
+        <summary>Advanced</summary>
+        <label>Negative prompt
+          <input id="negativePrompt" type="text" maxlength="1000" placeholder="blurry, watermark, extra limbs">
+        </label>
+        <label>Seed
+          <input id="seed" type="number" min="0" step="1" placeholder="Random">
+        </label>
+      </details>
+
+      <button id="generate" class="primary" type="submit">
+        <span>Generate</span><span id="cost" class="cost"></span>
+      </button>
+    </form>
+
+    <section class="gallery">
+      <div class="gallery-head">
+        <h2>Your videos</h2>
+        <div id="filters" class="tabs" role="tablist">
+          <button type="button" data-filter="all" class="active">All</button>
+          <button type="button" data-filter="active">In progress</button>
+          <button type="button" data-filter="succeeded">Done</button>
+          <button type="button" data-filter="failed">Failed</button>
+        </div>
+      </div>
+      <div id="grid" class="grid"></div>
+      <div id="empty" class="empty" hidden>
+        <svg viewBox="0 0 48 48" width="48" height="48" aria-hidden="true"><rect x="5" y="11" width="30" height="26" rx="4" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M35 20l9-5v18l-9-5z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></svg>
+        <p>No videos yet. Describe a scene and press Generate.</p>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="viewer">
+    <form method="dialog" class="viewer-close"><button aria-label="Close">✕</button></form>
+    <div class="viewer-body">
+      <video id="viewerVideo" controls playsinline></video>
+      <aside>
+        <p id="viewerPrompt" class="viewer-prompt"></p>
+        <dl id="viewerMeta"></dl>
+        <p id="viewerNote" class="hint"></p>
+        <div class="viewer-actions">
+          <a id="viewerDownload" class="btn" download>Download</a>
+          <button id="viewerRemix" class="btn" type="button">Remix</button>
+        </div>
+      </aside>
+    </div>
+  </dialog>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

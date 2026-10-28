@@ -1,0 +1,12 @@
+{
+  "name": "framecast-windows-packaging",
+  "private": true,
+  "type": "module",
+  "description": "Build tooling for the Framecast Windows installer. Run ./build.sh.",
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "pe-library": "2.0.1",
+    "postject": "1.0.0-alpha.6",
+    "resedit": "3.1.0"
+  }
+}
